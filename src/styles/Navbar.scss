@@ -1,0 +1,22 @@
+ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  padding: 20px;
+}
+a {
+  text-decoration: none;
+  color: #e4f1fe;
+}
+a:hover {
+  color: #9aa8b7;
+}
+.selected {
+  color: #9aa8b7;
+}
