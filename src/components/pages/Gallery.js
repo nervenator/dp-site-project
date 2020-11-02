@@ -1,7 +1,9 @@
 import React from 'react';
+import Images from '../layout/Images';
+import '../../styles/Gallery.scss';
 
 const Gallery = () => {
-  return <div>Gallery</div>;
+  return <Images />;
 };
 
 export default Gallery;
