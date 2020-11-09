@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AuthState from './context/auth/AuthState';
+import ImageState from './context/images/ImageState';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Navbar from './components/layout/Navbar';
@@ -15,20 +16,21 @@ function App() {
   return (
     <div className='App'>
       <AuthState>
-        <Header />
-        <Container>
-          <Router>
-            <Navbar />
-            <Switch>
-              <Route exact path='/' component={Home} />
-              <Route exact path='/twitch' component={ChannelPage} />
-              <Route exact path='/art' component={Gallery} />
-              <Route exact path='/login' component={LoginForm} />
-            </Switch>
-          </Router>
-        </Container>
-
-        <Footer />
+        <ImageState>
+          <Header />
+          <Container>
+            <Router>
+              <Navbar />
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <Route exact path='/twitch' component={ChannelPage} />
+                <Route exact path='/art' component={Gallery} />
+                <Route exact path='/login' component={LoginForm} />
+              </Switch>
+            </Router>
+          </Container>
+          <Footer />
+        </ImageState>
       </AuthState>
     </div>
   );

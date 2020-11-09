@@ -10,6 +10,7 @@ import image3 from '../../pictures/dppainting3.jpg';
 
 const Images = () => {
   const authContext = useContext(AuthContext);
+
   const { isAuthenticated } = authContext;
   const [modal, setModal] = useState(false);
   const [image, setImage] = useState('');
