@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AuthContext from '../../context/auth/AuthContext';
+import Logout from './Logout';
 import '../../styles/Container.scss';
 
 const Container = (props) => {
-  return <div id='container'>{props.children}</div>;
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated } = authContext;
+  return (
+    <div id='container'>
+      {props.children}
+      {isAuthenticated && <Logout />}
+    </div>
+  );
 };
 
 export default Container;
