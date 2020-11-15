@@ -4,14 +4,16 @@
   text-align: center;
   align-items: center;
   width: 350px;
-  height: 400px;
+  max-height: 450px;
   padding: 20px;
   margin: 0px 20px;
   border: 2px solid black;
   border-radius: 5px;
 }
 
-img {
-  width: 300px;
-  height: 300px;
+.image-item {
+  img {
+    width: 300px;
+    height: 300px;
+  }
 }

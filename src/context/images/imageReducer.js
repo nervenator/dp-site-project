@@ -1,7 +1,12 @@
-import { CLEAR_ERRORS, PROGRESS_CHANGE, IMAGE_ERROR, SET_URL } from '../types';
+import { CLEAR_ERRORS, PROGRESS_CHANGE, IMAGE_ERROR, SET_FILE } from '../types';
 
 const imageReducer = (state, action) => {
   switch (action.type) {
+    case SET_FILE:
+      return {
+        ...state,
+        file: action.payload,
+      };
     case PROGRESS_CHANGE:
       return {
         ...state,
@@ -12,12 +17,6 @@ const imageReducer = (state, action) => {
         ...state,
         error: action.payload,
       };
-    case SET_URL:
-      return {
-        ...state,
-        url: action.payload,
-      };
-
     case CLEAR_ERRORS:
       return {
         ...state,

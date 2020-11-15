@@ -6,7 +6,7 @@ import {
   projectStorage,
   timestamp,
 } from '../../firebase/config';
-import { CLEAR_ERRORS, PROGRESS_CHANGE, IMAGE_ERROR, SET_URL } from '../types';
+import { CLEAR_ERRORS, PROGRESS_CHANGE, IMAGE_ERROR, SET_FILE } from '../types';
 
 const ImageState = (props) => {
   const initialState = {
@@ -14,11 +14,14 @@ const ImageState = (props) => {
     error: null,
     progress: null,
     url: null,
+    image: null,
   };
 
   const [state, dispatch] = useReducer(imageReducer, initialState);
 
-  const upload = (file) => {
+  // Upload pic to firebase storage and add (url, date of creation, description, name of file) to firestore
+
+  const uploadPic = (file, description) => {
     const storageRef = projectStorage.ref(file.name);
     const collectionRef = projectFirestore.collection('images');
 
@@ -26,24 +29,43 @@ const ImageState = (props) => {
       'state_changed',
       (snap) => {
         let percentage = (snap.bytesTransferred / snap.totalBytes) * 100;
-        dispatch({ type: PROGRESS_CHANGE, percentage });
+        dispatch({ type: PROGRESS_CHANGE, payload: percentage });
       },
       (err) => {
-        dispatch({ type: IMAGE_ERROR, err });
+        dispatch({ type: IMAGE_ERROR, payload: err });
       },
       async () => {
         const url = await storageRef.getDownloadURL();
         const createdAt = timestamp();
         console.log(url, createdAt);
-        collectionRef.add({ url, createdAt });
-        dispatch({ type: SET_URL, url });
+        await collectionRef.add({
+          url,
+          createdAt,
+          description,
+          name: file.name,
+        });
       }
     );
   };
 
+  // Delete pic from firestore and delete from firebase storage
+
+  const deletePic = async (name, id) => {
+    const storageRef = projectStorage.ref(name);
+    const dbDocRef = projectFirestore.collection('images').doc(id);
+    console.log(name);
+    try {
+      await dbDocRef.delete();
+      await storageRef.delete();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
-  const setError = () => dispatch({ type: IMAGE_ERROR });
+  const setError = (error) => dispatch({ type: IMAGE_ERROR, payload: error });
+  const setFile = (file) => dispatch({ type: SET_FILE, payload: file });
 
   return (
     <imageContext.Provider
@@ -53,8 +75,10 @@ const ImageState = (props) => {
         url: state.url,
         error: state.error,
         clearErrors,
-        upload,
+        uploadPic,
         setError,
+        setFile,
+        deletePic,
       }}
     >
       {props.children}

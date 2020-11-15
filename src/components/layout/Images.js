@@ -1,14 +1,13 @@
 import React, { useState, useContext, Fragment } from 'react';
 import AuthContext from '../../context/auth/AuthContext';
+import UseFirestore from '../../hooks/UseFirestore';
 import ImageItem from './ImageItem';
 import ImageForm from './ImageForm';
 import UploadForm from './UploadForm';
 import Modal from '../layout/Modal';
-import image1 from '../../pictures/dppainting1.jpg';
-import image2 from '../../pictures/dppainting2.jpg';
-import image3 from '../../pictures/dppainting3.jpg';
 
 const Images = () => {
+  const images = UseFirestore('images').docs;
   const authContext = useContext(AuthContext);
 
   const { isAuthenticated } = authContext;
@@ -31,9 +30,18 @@ const Images = () => {
             <ImageForm image={image} />
           </Modal>
         )}
-        <ImageItem src={image1} desc='Image description' />
-        <ImageItem src={image2} desc='Image description' />
-        <ImageItem src={image3} desc='Image description' />
+        {images &&
+          images.map((image) => {
+            return (
+              <ImageItem
+                key={image.id}
+                id={image.id}
+                src={image.url}
+                desc={image.description}
+                name={image.name}
+              />
+            );
+          })}
       </div>
     </Fragment>
   );

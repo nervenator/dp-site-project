@@ -8,4 +8,4 @@ export const LOGOUT = 'LOGOUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const PROGRESS_CHANGE = 'PROGRESS_CHANGE';
 export const IMAGE_ERROR = 'IMAGE_ERROR';
-export const SET_URL = 'SET_URL';
+export const SET_FILE = 'SET_FILE';
